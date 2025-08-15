@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>MediaSync</title>
+    <meta name="theme-color" content="#0a0a0b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MediaSync</h1>
+        
+        <div id="mainMenu" class="main-menu">
+            <div class="menu-options">
+                <div class="menu-option" onclick="showUploadSection()">
+                    <div class="menu-icon">📤</div>
+                    <h3>Subir</h3>
+                    <p>Fotos y videos</p>
+                </div>
+                <div class="menu-option" onclick="showGallerySection()">
+                    <div class="menu-icon">📁</div>
+                    <h3>Galería</h3>
+                    <p>Ver archivos</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="uploadSection" class="section" style="display: none;">
+            <div class="section-header">
+                <button class="back-btn" onclick="showMainMenu()">←</button>
+                <h2>Subir archivos</h2>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <p>Arrastra archivos o toca para seleccionar</p>
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    Seleccionar
+                </button>
+                <input type="file" id="fileInput" accept="image/*,video/*" multiple>
+            </div>
+            
+            <div id="preview"></div>
+            <div id="message"></div>
+            <button id="uploadBtn" class="upload-btn" style="display: none;">Subir</button>
+        </div>
+
+        <div id="gallerySection" class="section" style="display: none;">
+            <div class="section-header">
+                <button class="back-btn" onclick="showMainMenu()">←</button>
+                <h2>Galería</h2>
+            </div>
+            
+            <div class="gallery-controls">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="showTab('images')">🖼️ Fotos</button>
+                    <button class="tab-btn" onclick="showTab('videos')">🎥 Videos</button>
+                    <button class="tab-btn" onclick="showTab('all')">📋 Todo</button>
+                </div>
+            </div>
+            
+            <!-- Controles principales mejorados -->
+            <div class="main-controls">
+                <div class="control-group">
+                    <button class="control-btn selection-btn" onclick="toggleSelectionMode()" title="Activar modo selección">
+                        <span class="control-icon">✓</span>
+                        <span class="control-text">Seleccionar</span>
+                    </button>
+                    <button class="control-btn select-all-btn" onclick="selectAll()" title="Seleccionar todos" style="display: none;">
+                        <span class="control-icon">⚡</span>
+                        <span class="control-text">Todo</span>
+                    </button>
+                    <button class="control-btn download-btn-main" onclick="downloadSelected()" title="Descargar seleccionados" style="display: none;">
+                        <span class="control-icon">⬇</span>
+                        <span class="control-text">Descargar</span>
+                        <span class="control-count" id="downloadCount">0</span>
+                    </button>
+                    <button class="control-btn delete-btn-main" onclick="deleteSelected()" title="Eliminar seleccionados" style="display: none;">
+                        <span class="control-icon">🗑</span>
+                        <span class="control-text">Eliminar</span>
+                        <span class="control-count" id="deleteCount">0</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="imageGallery" class="gallery-container"></div>
+            <div id="videoGallery" class="gallery-container" style="display: none;"></div>
+            <div id="allGallery" class="gallery-container" style="display: none;"></div>
+        </div>
+    </div>
+
+    <div id="photoModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <button class="modal-nav modal-prev" onclick="prevPhoto()">‹</button>
+            <img id="modalImage" src="" alt="">
+            <button class="modal-nav modal-next" onclick="nextPhoto()">›</button>
+            <div class="modal-info" id="modalInfo"></div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="confirm-modal">
+        <div class="confirm-content">
+            <h3>Eliminar</h3>
+            <p id="confirmMessage"></p>
+            <div class="confirm-buttons">
+                <button class="confirm-btn danger" onclick="confirmDelete()">Eliminar</button>
+                <button class="confirm-btn cancel" onclick="cancelDelete()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
